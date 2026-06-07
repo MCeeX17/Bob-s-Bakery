@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin — The Bread Basket</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+    <!-- ══ LOGIN SCREEN ════════════════════════════════════════ -->
+    <div id="login-screen" class="login-screen">
+        <div class="login-card">
+            <div class="login-logo">
+                <svg viewBox="0 0 40 40" fill="none" width="40" height="40">
+                    <ellipse cx="20" cy="20" rx="14" ry="10" stroke="#c9a96e" stroke-width="1.2"/>
+                    <path d="M10 20 Q15 14 20 20 Q25 26 30 20" stroke="#c9a96e" stroke-width="1.2" fill="none"/>
+                    <circle cx="20" cy="20" r="2" fill="#c9a96e"/>
+                </svg>
+                <span>The Bread Basket</span>
+            </div>
+            <h2>Admin Panel</h2>
+            <p class="login-sub">Sign in with your Google account</p>
+            <button id="google-signin-btn" class="google-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                Sign in with Google
+            </button>
+            <p class="login-error" id="login-error" style="display:none;">Sign-in failed. Make sure you're using the authorised account.</p>
+        </div>
+    </div>
+
+    <!-- ══ ADMIN APP ════════════════════════════════════════════ -->
+    <div id="admin-app" class="admin-app" style="display:none;">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <svg viewBox="0 0 40 40" fill="none" width="32" height="32">
+                    <ellipse cx="20" cy="20" rx="14" ry="10" stroke="#c9a96e" stroke-width="1.2"/>
+                    <path d="M10 20 Q15 14 20 20 Q25 26 30 20" stroke="#c9a96e" stroke-width="1.2" fill="none"/>
+                    <circle cx="20" cy="20" r="2" fill="#c9a96e"/>
+                </svg>
+                <div>
+                    <div class="sidebar-brand">Bread Basket</div>
+                    <div class="sidebar-role">Admin</div>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <button class="sidebar-btn active" data-view="products">
+                    <span class="sidebar-icon">🧺</span> Products
+                </button>
+                <button class="sidebar-btn" data-view="add">
+                    <span class="sidebar-icon">➕</span> Add Product
+                </button>
+            </nav>
+            <button id="signout-btn" class="signout-btn">Sign Out</button>
+        </aside>
+
+        <!-- Main content -->
+        <main class="admin-main">
+
+            <!-- ── PRODUCTS VIEW ─────────────────────────────── -->
+            <div id="view-products" class="admin-view active">
+                <div class="view-header">
+                    <div>
+                        <h1>Products</h1>
+                        <p class="view-sub">Manage your live catalog</p>
+                    </div>
+                    <button class="btn-primary" id="open-add-btn">+ Add Product</button>
+                </div>
+
+                <div id="products-loading" class="state-box">
+                    <div class="spinner"></div>
+                    <p>Loading products…</p>
+                </div>
+
+                <div id="products-empty" class="state-box" style="display:none;">
+                    <p style="font-size:2.5rem;">🍞</p>
+                    <p>No products yet. Add your first one!</p>
+                    <button class="btn-primary" onclick="switchView('add')">Add Product</button>
+                </div>
+
+                <div id="admin-product-grid" class="admin-product-grid" style="display:none;"></div>
+            </div>
+
+            <!-- ── ADD / EDIT PRODUCT VIEW ───────────────────── -->
+            <div id="view-add" class="admin-view">
+                <div class="view-header">
+                    <div>
+                        <h1 id="form-view-title">Add Product</h1>
+                        <p class="view-sub" id="form-view-sub">Fill in the details and upload images</p>
+                    </div>
+                    <button class="btn-ghost" onclick="cancelEdit()">← Back</button>
+                </div>
+
+                <div class="form-card">
+                    <!-- Image upload -->
+                    <div class="form-section">
+                        <label class="form-label">Product Images <span class="form-hint">(up to 5 images)</span></label>
+                        <div class="upload-zone" id="upload-zone">
+                            <input type="file" id="img-input" accept="image/*" multiple style="display:none;">
+                            <div class="upload-placeholder" id="upload-placeholder">
+                                <div class="upload-icon">📸</div>
+                                <p>Click to upload images</p>
+                                <span>JPG, PNG, WEBP — max 5MB each</span>
+                            </div>
+                            <div class="upload-previews" id="upload-previews"></div>
+                        </div>
+                    </div>
+
+                    <!-- Product details -->
+                    <div class="form-section">
+                        <label class="form-label" for="f-name">Product Name <span class="req">*</span></label>
+                        <input type="text" id="f-name" class="form-input" placeholder="e.g. Banana Loaf">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-section">
+                            <label class="form-label" for="f-price">Price <span class="req">*</span></label>
+                            <input type="text" id="f-price" class="form-input" placeholder="e.g. R 70.00">
+                        </div>
+                        <div class="form-section">
+                            <label class="form-label" for="f-tags">Tags <span class="form-hint">(comma separated)</span></label>
+                            <input type="text" id="f-tags" class="form-input" placeholder="e.g. Fan Favourite, Vegan">
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <label class="form-label" for="f-desc">Description <span class="req">*</span></label>
+                        <textarea id="f-desc" class="form-textarea" rows="4" placeholder="Describe your product — ingredients, texture, serving suggestions…"></textarea>
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="form-actions">
+                        <button class="btn-ghost" onclick="cancelEdit()">Cancel</button>
+                        <button class="btn-primary" id="submit-btn" onclick="submitProduct()">
+                            <span id="submit-label">Publish Product</span>
+                            <div class="btn-spinner" id="submit-spinner" style="display:none;"></div>
+                        </button>
+                    </div>
+
+                    <p class="form-error" id="form-error" style="display:none;"></p>
+                    <p class="form-success" id="form-success" style="display:none;"></p>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ══ DELETE CONFIRM MODAL ═════════════════════════════════ -->
+    <div id="delete-modal" class="delete-modal-overlay" style="display:none;">
+        <div class="delete-modal">
+            <h3>Delete Product?</h3>
+            <p>This will permanently remove <strong id="delete-product-name"></strong> from your catalog. This cannot be undone.</p>
+            <div class="delete-actions">
+                <button class="btn-ghost" onclick="closeDeleteModal()">Cancel</button>
+                <button class="btn-danger" id="confirm-delete-btn">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs — Firestore + Auth only (Storage replaced by Cloudinary) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, orderBy, query, serverTimestamp }
+                                 from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
+                                 from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+        const app  = initializeApp(window.FIREBASE_CONFIG);
+        const db   = getFirestore(app);
+        const auth = getAuth(app);
+
+        window.__db      = db;
+        window.__auth    = auth;
+        window.__fsLib   = { collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, orderBy, query, serverTimestamp };
+        window.__authLib = { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged };
+
+        window.dispatchEvent(new Event('firebase-ready'));
+    </script>
+    <script src="../js/firebase-config.js"></script>
+    <script>
+        window.FIREBASE_CONFIG    = FIREBASE_CONFIG;
+        window.CLOUDINARY_CONFIG  = CLOUDINARY_CONFIG;
+        window.WHATSAPP_NUMBER    = WHATSAPP_NUMBER;
+    </script>
+    <script src="js/admin.js" defer></script>
+</body>
+</html>

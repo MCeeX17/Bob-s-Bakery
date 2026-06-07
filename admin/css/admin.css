@@ -1,0 +1,699 @@
+/* ═══════════════════════════════════════════════════════════
+   ADMIN.CSS — The Bread Basket Admin Panel
+═══════════════════════════════════════════════════════════ */
+
+:root {
+    --cream:      #f9f4ec;
+    --gold:       #c9a96e;
+    --gold-dark:  #a07840;
+    --gold-light: #e8d5b0;
+    --brown:      #3d2b1f;
+    --brown-mid:  #6b4226;
+    --bg:         #f5f0e8;
+    --white:      #ffffff;
+    --border:     rgba(201,169,110,0.25);
+    --text:       #2c1a0e;
+    --muted:      #7a5c44;
+    --danger:     #c0392b;
+    --success:    #2e7d32;
+
+    --font-d: 'Cormorant Garamond', Georgia, serif;
+    --font-b: 'Jost', sans-serif;
+    --radius: 12px;
+    --shadow: 0 4px 24px rgba(61,43,31,0.10);
+    --ease:   cubic-bezier(0.25,0.46,0.45,0.94);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-b); background: var(--bg); color: var(--text); min-height: 100vh; }
+button { cursor: pointer; font-family: var(--font-b); }
+input, textarea { font-family: var(--font-b); }
+
+/* ══ LOGIN ═════════════════════════════════════════════════ */
+.login-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--brown);
+    background-image: url('../../images/bg-hero.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.login-screen::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(30,15,5,0.75);
+}
+
+.login-card {
+    position: relative;
+    z-index: 1;
+    background: var(--white);
+    border-radius: 20px;
+    padding: 48px 40px;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+}
+
+.login-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 28px;
+    font-family: var(--font-d);
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--brown);
+}
+
+.login-card h2 {
+    font-family: var(--font-d);
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--brown);
+    margin-bottom: 8px;
+}
+
+.login-sub {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 28px;
+}
+
+.google-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 14px 24px;
+    border: 1.5px solid #dadce0;
+    border-radius: 99px;
+    background: var(--white);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text);
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+.google-btn:hover {
+    background: #f8f8f8;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+}
+
+.login-error {
+    margin-top: 16px;
+    font-size: 0.8rem;
+    color: var(--danger);
+    background: #fdecea;
+    padding: 8px 14px;
+    border-radius: 8px;
+}
+
+/* ══ APP LAYOUT ════════════════════════════════════════════ */
+.admin-app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ── Sidebar ────────────────────────────────────────────── */
+.sidebar {
+    width: 240px;
+    flex-shrink: 0;
+    background: var(--brown);
+    display: flex;
+    flex-direction: column;
+    padding: 28px 0;
+    min-height: 100vh;
+    position: sticky;
+    top: 0;
+}
+
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 24px 28px;
+    border-bottom: 1px solid rgba(201,169,110,0.15);
+    margin-bottom: 16px;
+}
+
+.sidebar-brand {
+    font-family: var(--font-d);
+    font-size: 1.1rem;
+    color: var(--gold-light);
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.sidebar-role {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(201,169,110,0.5);
+}
+
+.sidebar-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0 12px;
+}
+
+.sidebar-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 11px 16px;
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+    color: rgba(232,213,176,0.65);
+    font-size: 0.88rem;
+    font-weight: 400;
+    text-align: left;
+    transition: background 0.2s, color 0.2s;
+}
+
+.sidebar-btn:hover { background: rgba(201,169,110,0.12); color: var(--gold-light); }
+.sidebar-btn.active { background: rgba(201,169,110,0.2); color: var(--gold-light); font-weight: 500; }
+.sidebar-icon { font-size: 1.1rem; }
+
+.signout-btn {
+    margin: 12px;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid rgba(201,169,110,0.25);
+    border-radius: 10px;
+    color: rgba(201,169,110,0.5);
+    font-size: 0.8rem;
+    transition: all 0.2s;
+}
+
+.signout-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+}
+
+/* ── Main ───────────────────────────────────────────────── */
+.admin-main {
+    flex: 1;
+    padding: 36px 40px;
+    overflow-y: auto;
+    max-width: 1000px;
+}
+
+.admin-view { display: none; }
+.admin-view.active { display: block; }
+
+.view-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 32px;
+}
+
+.view-header h1 {
+    font-family: var(--font-d);
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: var(--brown);
+    line-height: 1;
+}
+
+.view-sub {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-top: 4px;
+}
+
+/* ── Buttons ────────────────────────────────────────────── */
+.btn-primary {
+    padding: 11px 24px;
+    background: var(--brown);
+    color: var(--gold-light);
+    border: none;
+    border-radius: 99px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    transition: background 0.25s, transform 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary:hover { background: var(--gold-dark); transform: translateY(-1px); }
+
+.btn-ghost {
+    padding: 10px 20px;
+    background: transparent;
+    border: 1.5px solid var(--border);
+    border-radius: 99px;
+    color: var(--muted);
+    font-size: 0.82rem;
+    transition: border-color 0.2s, color 0.2s;
+}
+
+.btn-ghost:hover { border-color: var(--brown); color: var(--brown); }
+
+.btn-danger {
+    padding: 10px 22px;
+    background: var(--danger);
+    color: #fff;
+    border: none;
+    border-radius: 99px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.btn-danger:hover { background: #a93226; }
+
+/* ── State boxes ────────────────────────────────────────── */
+.state-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    min-height: 280px;
+    text-align: center;
+    color: var(--muted);
+}
+
+.spinner, .btn-spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid var(--border);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+.btn-spinner {
+    width: 18px;
+    height: 18px;
+    border-width: 2px;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Admin product grid ─────────────────────────────────── */
+.admin-product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.admin-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s var(--ease), box-shadow 0.3s;
+}
+
+.admin-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(61,43,31,0.15);
+}
+
+.admin-card-img {
+    position: relative;
+    height: 180px;
+    background: var(--cream);
+    overflow: hidden;
+}
+
+.admin-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s var(--ease);
+}
+
+.admin-card:hover .admin-card-img img { transform: scale(1.05); }
+
+.no-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--muted);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+}
+
+.admin-card-img-count {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: rgba(61,43,31,0.7);
+    color: var(--gold-light);
+    font-size: 0.62rem;
+    padding: 3px 9px;
+    border-radius: 99px;
+    backdrop-filter: blur(4px);
+}
+
+.admin-card-body {
+    padding: 16px 18px 12px;
+}
+
+.admin-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 8px;
+}
+
+.admin-tag {
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border: 1px solid var(--gold-light);
+    border-radius: 99px;
+    color: var(--gold-dark);
+}
+
+.admin-card-title {
+    font-family: var(--font-d);
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--brown);
+    margin-bottom: 3px;
+}
+
+.admin-card-price {
+    font-family: var(--font-d);
+    font-size: 1.1rem;
+    color: var(--brown);
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.admin-card-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.admin-card-actions {
+    display: flex;
+    gap: 8px;
+    padding: 12px 18px;
+    border-top: 1px solid var(--border);
+}
+
+.btn-edit, .btn-del {
+    flex: 1;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    border: 1.5px solid;
+    transition: all 0.2s;
+}
+
+.btn-edit {
+    border-color: var(--brown);
+    background: transparent;
+    color: var(--brown);
+}
+
+.btn-edit:hover { background: var(--brown); color: var(--gold-light); }
+
+.btn-del {
+    border-color: #e74c3c30;
+    background: transparent;
+    color: var(--danger);
+}
+
+.btn-del:hover { background: var(--danger); color: #fff; border-color: var(--danger); }
+
+/* ── Form card ──────────────────────────────────────────── */
+.form-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 36px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.form-section { display: flex; flex-direction: column; gap: 8px; }
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--brown);
+}
+
+.form-hint {
+    font-weight: 300;
+    color: var(--muted);
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.75rem;
+}
+
+.req { color: var(--danger); }
+
+.form-input, .form-textarea {
+    padding: 12px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-size: 0.92rem;
+    color: var(--text);
+    background: var(--cream);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    resize: none;
+}
+
+.form-input:focus, .form-textarea:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201,169,110,0.15);
+}
+
+/* ── Upload zone ────────────────────────────────────────── */
+.upload-zone {
+    border: 2px dashed var(--gold-light);
+    border-radius: var(--radius);
+    min-height: 140px;
+    background: var(--cream);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+.upload-zone:hover, .upload-zone.drag-over {
+    border-color: var(--gold);
+    background: rgba(201,169,110,0.06);
+}
+
+.upload-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 32px;
+    text-align: center;
+    color: var(--muted);
+    pointer-events: none;
+}
+
+.upload-icon { font-size: 2.2rem; }
+
+.upload-placeholder p {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--brown);
+}
+
+.upload-placeholder span { font-size: 0.75rem; }
+
+.upload-previews {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 16px;
+}
+
+.preview-item {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+}
+
+.preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.preview-remove {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 22px;
+    height: 22px;
+    background: rgba(30,10,5,0.75);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    font-size: 0.65rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    z-index: 2;
+}
+
+.preview-remove:hover { background: var(--danger); }
+
+.preview-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: rgba(61,43,31,0.6);
+    color: var(--gold-light);
+    padding: 3px;
+}
+
+/* ── Form actions ───────────────────────────────────────── */
+.form-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+}
+
+.form-error {
+    font-size: 0.82rem;
+    color: var(--danger);
+    background: #fdecea;
+    padding: 10px 16px;
+    border-radius: 8px;
+}
+
+.form-success {
+    font-size: 0.82rem;
+    color: var(--success);
+    background: #e8f5e9;
+    padding: 10px 16px;
+    border-radius: 8px;
+}
+
+/* ── Delete modal ───────────────────────────────────────── */
+.delete-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(30,15,5,0.6);
+    backdrop-filter: blur(6px);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.delete-modal {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 36px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.delete-modal h3 {
+    font-family: var(--font-d);
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: var(--brown);
+    margin-bottom: 12px;
+}
+
+.delete-modal p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 28px;
+}
+
+.delete-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .sidebar { display: none; }
+    .admin-main { padding: 24px 20px; }
+    .form-row { grid-template-columns: 1fr; }
+    .view-header { flex-direction: column; gap: 16px; }
+}
+
+/* ── Cloudinary upload progress bar ────────────────────── */
+.upload-progress {
+    margin-top: 10px;
+    display: none;
+}
+
+.upload-progress-text {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.upload-progress-track {
+    height: 4px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.upload-progress-fill {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 99px;
+    width: 0%;
+    transition: width 0.4s ease;
+}
